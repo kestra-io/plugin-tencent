@@ -1,0 +1,31 @@
+Namespace: {{ flow.namespace }}
+Flow: {{ flow.id }}
+Execution ID: {{ execution.id }}
+
+Status: {{ execution.state.current }}
+Started At: {{ startDate }}
+Duration: {{ duration }}
+
+{# ---- failed task ---- #}
+{% set failed = firstFailed | default(null) %}
+{% if failed != null %}
+Failed Task: {{ failed.taskId }}
+{% endif %}
+
+{{ execution.url }}
+
+{# ---- custom message ---- #}
+{% set message = customMessage | default('') %}
+{% if message | length > 0 %}
+Message:
+{{ message }}
+{% endif %}
+
+{# ---- custom fields ---- #}
+{% set fields = customFields | default({}) %}
+{% if fields | length > 0 %}
+Additional Info:
+{% for entry in fields %}
+- {{ entry.key }}: {{ entry.value }}
+{% endfor %}
+{% endif %}

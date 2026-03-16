@@ -1,0 +1,27 @@
+id: tencent-qq
+namespace: io.kestra.tests
+
+inputs:
+  - id: url
+    type: STRING
+    defaults: "http://localhost:59443"
+
+tasks:
+  - id: tencent-qq
+    type: io.kestra.plugin.tencent.qq.QQExecution
+    url: "{{ inputs.url }}/webhook-unit-test"
+    recipientIds:
+      - "test_user_1"
+    customMessage: "Kestra Tencent QQ notification"
+    payload: "{}"
+    executionId: "{{trigger.executionId}}"
+
+triggers:
+  - id: on_failure
+    type: io.kestra.plugin.core.trigger.Flow
+    preconditions:
+      id: flow_trigger
+      flows:
+        - namespace: io.kestra.tests
+          flowId: main-flow-that-fails
+          states: [ FAILED ]

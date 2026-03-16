@@ -21,12 +21,12 @@ import java.util.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public abstract class QQTemplate extends AbstractQQConnection {
+public abstract class QQTemplate extends QQIncomingWebhook {
 
-    protected Property<String> url;
-    protected Property<String> token;
     protected Property<List<String>> recipientIds;
+
     protected Property<String> templateUri;
+
     protected Property<Map<String, Object>> templateRenderMap;
 
     @Override
@@ -48,8 +48,7 @@ public abstract class QQTemplate extends AbstractQQConnection {
 
         String messageText = runContext.render(template, variables);
 
-        try (HttpClient client =
-                 new HttpClient(runContext, httpClientConfigurationWithOptions())) {
+        try (HttpClient client = new HttpClient(runContext, httpClientConfigurationWithOptions())) {
 
             for (String recipient :
                 runContext.render(recipientIds).asList(String.class)) {
@@ -74,8 +73,7 @@ public abstract class QQTemplate extends AbstractQQConnection {
                         .build())
                     .build();
 
-                HttpResponse<String> response =
-                    client.request(request, String.class);
+                HttpResponse<String> response = client.request(request, String.class);
 
                 if (response.getStatus().getCode() != 200) {
                     throw new IllegalStateException(response.getBody());

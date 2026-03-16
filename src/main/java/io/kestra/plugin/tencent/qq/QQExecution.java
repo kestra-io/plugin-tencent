@@ -58,7 +58,7 @@ public class QQExecution extends QQTemplate implements ExecutionInterface {
 
     @Override
     public VoidOutput run(RunContext runContext) throws Exception {
-        this.templateUri = Property.ofValue("qq-execution.peb");
+        this.templateUri = Property.ofValue("tencent-qq.peb");
         this.templateRenderMap = Property.ofValue(ExecutionService.executionMap(runContext, this));
         return super.run(runContext);
     }

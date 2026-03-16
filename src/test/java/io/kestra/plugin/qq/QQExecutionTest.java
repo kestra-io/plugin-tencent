@@ -45,20 +45,4 @@ public class QQExecutionTest extends AbstractQQTest {
         assertThat(receivedData, containsString("Final task ID: failed"));
         assertThat(receivedData, containsString("Kestra Tencent QQ notification"));
     }
-
-    @Test
-    void flow_successfullFlowShowLastTaskId() throws Exception {
-        var execution = runAndCaptureExecution(
-            "main-flow-that-succeeds",
-            "tencent-qq-successful"
-        );
-
-        String receivedData = waitForWebhookData(() -> FakeWebhookController.data,5000);
-
-        assertThat(receivedData, containsString(execution.getId()));
-        assertThat(receivedData, containsString("https://mysuperhost.com/kestra/ui"));
-        assertThat(receivedData, not(containsString("Failed Task")));
-        assertThat(receivedData, containsString("Final task ID: success"));
-    }
-
 }

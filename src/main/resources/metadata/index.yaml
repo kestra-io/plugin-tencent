@@ -1,8 +1,8 @@
-group: io.kestra.plugin.template
-name: "template"
-title: "Template"
-description: "Plugin template for Kestra"
-body: ""
+group: io.kestra.plugin.tencent
+name: "tencent"
+title: "Tencent"
+description: "Tencent integrations for Kestra."
+body: "This plugin provides integrations with Tencent services. It includes tasks for sending execution-based notifications and alerts using Tencent Cloud communication platforms."
 videos: []
 createdBy: "Kestra Core Team"
 managedBy: "Kestra Core Team"

@@ -24,7 +24,7 @@ import java.util.Map;
 @ToString
 public abstract class AbstractQQConnection extends Task implements RunnableTask<VoidOutput> {
 
-    @PluginProperty(dynamic = true)
+    @PluginProperty(dynamic = true, group = "advanced")
     protected RequestOptions options;
 
     protected HttpConfiguration httpClientConfigurationWithOptions() {

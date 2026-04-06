@@ -18,6 +18,7 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.net.URI;
+import io.kestra.core.models.annotations.PluginProperty;
 
 @SuperBuilder
 @Getter
@@ -68,12 +69,14 @@ public class QQIncomingWebhook extends AbstractQQConnection {
         description = "Tencent Cloud IM REST endpoint used to send the message"
     )
     @NotNull
+    @PluginProperty(group = "main")
     protected Property<String> url;
 
     @Schema(
         title = "Tencent IM authentication token",
         description = "Authentication token or signature for Tencent IM API"
     )
+    @PluginProperty(group = "connection")
     protected Property<String> token;
 
     @Schema(
@@ -81,6 +84,7 @@ public class QQIncomingWebhook extends AbstractQQConnection {
         description = "Raw JSON payload sent to the Tencent IM API"
     )
     @NotNull
+    @PluginProperty(group = "main")
     protected Property<String> payload;
 
     @Override

@@ -2,21 +2,17 @@ package io.kestra.plugin.qq;
 
 import io.kestra.core.junit.annotations.KestraTest;
 import io.kestra.core.models.executions.Execution;
-import io.kestra.core.queues.QueueFactoryInterface;
-import io.kestra.core.queues.QueueInterface;
+import io.kestra.core.queues.DispatchQueueInterface;
 import io.kestra.core.runners.TestRunnerUtils;
 import io.kestra.core.utils.Await;
 import io.kestra.core.utils.TestsUtils;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.runtime.server.EmbeddedServer;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
-import reactor.core.publisher.Flux;
-
 import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -39,8 +35,7 @@ public class AbstractQQTest {
     protected ApplicationContext applicationContext;
 
     @Inject
-    @Named(QueueFactoryInterface.EXECUTION_NAMED)
-    protected QueueInterface<Execution> executionQueue;
+    protected DispatchQueueInterface<Execution> executionQueue;
 
     @Inject
     protected TestRunnerUtils runnerUtils;
@@ -69,10 +64,9 @@ public class AbstractQQTest {
      * @param dataSupplier supplier function that provides the data to check
      * @param timeoutMs The maximum time to wait in milliseconds.
      * @return The received data string.
-     * @throws InterruptedException if the thread is interrupted while sleeping.
      * @throws TimeoutException if the data does not become non-null within the timeout period.
      */
-    public static String waitForWebhookData(Supplier<String> dataSupplier, long timeoutMs) throws InterruptedException, TimeoutException {
+    public static String waitForWebhookData(Supplier<String> dataSupplier, long timeoutMs) throws TimeoutException {
         try {
             return Await.until(
                 dataSupplier::get,
@@ -88,9 +82,9 @@ public class AbstractQQTest {
         CountDownLatch queueCount = new CountDownLatch(1);
         AtomicReference<Execution> last = new AtomicReference<>();
 
-        Flux<Execution> receive = TestsUtils.receive(executionQueue, execution -> {
-            if (execution.getLeft().getFlowId().equals(notificationFlowId)) {
-                last.set(execution.getLeft());
+        executionQueue.addListener(execution -> {
+            if (execution.getFlowId().equals(notificationFlowId)) {
+                last.set(execution);
                 queueCount.countDown();
             }
         });
@@ -109,8 +103,6 @@ public class AbstractQQTest {
         Execution triggeredExecution = last.get();
         assertThat(triggeredExecution, notNullValue());
         assertThat(triggeredExecution.getTrigger().getVariables().get("executionId"), is(execution.getId()));
-
-        receive.blockLast();
 
         return execution;
     }

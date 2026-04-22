@@ -76,7 +76,7 @@ public class QQIncomingWebhook extends AbstractQQConnection {
         title = "Tencent IM authentication token",
         description = "Authentication token or signature for Tencent IM API"
     )
-    @PluginProperty(group = "connection")
+    @PluginProperty(secret = true, group = "connection")
     protected Property<String> token;
 
     @Schema(

@@ -4,6 +4,7 @@ import io.kestra.core.http.HttpRequest;
 import io.kestra.core.http.HttpResponse;
 import io.kestra.core.http.client.HttpClient;
 import io.kestra.core.models.property.Property;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.kestra.core.models.tasks.VoidOutput;
 import io.kestra.core.runners.RunContext;
 import io.kestra.core.serializers.JacksonMapper;
@@ -23,10 +24,13 @@ import java.util.*;
 @ToString
 public abstract class QQTemplate extends QQIncomingWebhook {
 
+    @Schema(title = "Recipient IDs to notify")
     protected Property<List<String>> recipientIds;
 
+    @Schema(title = "URI of the notification template")
     protected Property<String> templateUri;
 
+    @Schema(title = "Values used to render the template")
     protected Property<Map<String, Object>> templateRenderMap;
 
     @Override

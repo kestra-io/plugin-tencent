@@ -5,6 +5,7 @@ import io.kestra.core.http.HttpRequest;
 import io.kestra.core.http.client.configurations.HttpConfiguration;
 import io.kestra.core.http.client.configurations.TimeoutConfiguration;
 import io.kestra.core.models.annotations.PluginProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.kestra.core.models.property.Property;
 import io.kestra.core.models.tasks.RunnableTask;
 import io.kestra.core.models.tasks.Task;
@@ -24,6 +25,7 @@ import java.util.Map;
 @ToString
 public abstract class AbstractQQConnection extends Task implements RunnableTask<VoidOutput> {
 
+    @Schema(title = "HTTP request options")
     @PluginProperty(dynamic = true, group = "advanced")
     protected RequestOptions options;
 

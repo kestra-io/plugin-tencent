@@ -15,6 +15,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.util.*;
 
 @SuperBuilder
@@ -59,7 +60,7 @@ public abstract class QQTemplate extends QQIncomingWebhook {
 
                 Map<String, Object> payload = Map.of(
                     "To_Account", recipient,
-                    "MsgRandom", new Random().nextInt(Integer.MAX_VALUE),
+                    "MsgRandom", new SecureRandom().nextInt(Integer.MAX_VALUE),
                     "MsgBody", List.of(
                         Map.of(
                             "MsgType", "TIMTextElem",

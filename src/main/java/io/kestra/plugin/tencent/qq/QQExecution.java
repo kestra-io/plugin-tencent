@@ -8,6 +8,7 @@ import io.kestra.core.plugins.notifications.ExecutionInterface;
 import io.kestra.core.plugins.notifications.ExecutionService;
 
 import io.kestra.core.runners.RunContext;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -18,6 +19,10 @@ import java.util.Map;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
+@Schema(
+    title = "Send a Tencent QQ notification on a Kestra execution",
+    description = "Renders a template with execution context and sends it to the configured QQ recipients."
+)
 @Plugin(
     examples = {
         @Example(

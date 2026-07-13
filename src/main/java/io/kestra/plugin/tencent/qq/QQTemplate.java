@@ -4,6 +4,7 @@ import io.kestra.core.http.HttpRequest;
 import io.kestra.core.http.HttpResponse;
 import io.kestra.core.http.client.HttpClient;
 import io.kestra.core.models.property.Property;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.kestra.core.models.tasks.VoidOutput;
 import io.kestra.core.runners.RunContext;
 import io.kestra.core.serializers.JacksonMapper;
@@ -14,6 +15,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.util.*;
 
 @SuperBuilder
@@ -23,10 +25,13 @@ import java.util.*;
 @ToString
 public abstract class QQTemplate extends QQIncomingWebhook {
 
+    @Schema(title = "Recipient IDs to notify")
     protected Property<List<String>> recipientIds;
 
+    @Schema(title = "URI of the notification template")
     protected Property<String> templateUri;
 
+    @Schema(title = "Values used to render the template")
     protected Property<Map<String, Object>> templateRenderMap;
 
     @Override
@@ -55,7 +60,7 @@ public abstract class QQTemplate extends QQIncomingWebhook {
 
                 Map<String, Object> payload = Map.of(
                     "To_Account", recipient,
-                    "MsgRandom", new Random().nextInt(Integer.MAX_VALUE),
+                    "MsgRandom", new SecureRandom().nextInt(Integer.MAX_VALUE),
                     "MsgBody", List.of(
                         Map.of(
                             "MsgType", "TIMTextElem",

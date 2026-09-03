@@ -4,7 +4,7 @@ Send notifications and execution alerts to Tencent QQ from Kestra flows.
 
 ## Authentication
 
-All tasks require `url` (the QQ incoming webhook URL, required). Optionally set `token` (a verification token for the webhook endpoint). Optionally set `options` for HTTP client configuration (connect timeout, read idle timeout, custom headers). Store secrets in [secrets](https://kestra.io/docs/concepts/secret) and apply connection properties globally with [plugin defaults](https://kestra.io/docs/workflow-components/plugin-defaults).
+All tasks require `url` (the QQ incoming webhook URL, required). Optionally set `token` (a verification token for the webhook endpoint). Optionally set `options` for HTTP client configuration (connect timeout, read idle timeout, custom headers). Store secrets in [secrets](https://kestra.io/docs/concepts/secret) and set connection properties on each task.
 
 ## Tasks
 

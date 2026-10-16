@@ -50,7 +50,7 @@ import io.kestra.core.models.annotations.PluginProperty;
 
                 errors:
                   - id: qq_alert
-                    type: io.kestra.plugin.qq.QQIncomingWebhook
+                    type: io.kestra.plugin.tencent.qq.QQIncomingWebhook
                     url: "https://im.tencentcloudapi.com/v4/openim/sendmsg"
                     token: "{{ secret('TENCENT_IM_TOKEN') }}"
                     payload: |
